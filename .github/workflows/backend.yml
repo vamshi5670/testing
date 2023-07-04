@@ -43,8 +43,9 @@ jobs:
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
           cd ./sourcecode/BackEnd
-          dotnet build AzureFunctionApp/AzureFunctionApp.csproj
-          dotnet build JWTToken/JWTToken.csproj
+          for project in $(find . -name '*.csproj'); do
+            dotnet build "$project"
+          done
           cd ../..
           ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
