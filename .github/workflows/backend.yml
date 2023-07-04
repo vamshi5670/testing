@@ -30,7 +30,11 @@ jobs:
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
           cd ./sourcecode/BackEnd
-          dotnet build
-          cd ../..
+          for project in $(ls -d */); do
+            cd "$project"
+            dotnet build
+            cd ..
+          done
+          cd ..
           ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -X \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
