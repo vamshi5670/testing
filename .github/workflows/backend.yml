@@ -25,7 +25,7 @@ jobs:
             -v "/var/run/docker.sock:/var/run/docker.sock" \
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
             -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
-            sonarsource/dotnet-sonarscanner \
+            burakince/docker-dotnet-sonarscanner \
             begin /k:"BackEnd" /d:sonar.login="$SONAR_LOGIN" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.sources=./sourcecode/BackEnd
       - name: Build and analyze with dotnet build
         run: |
@@ -41,5 +41,5 @@ jobs:
             -v "/var/run/docker.sock:/var/run/docker.sock" \
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
             -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
-            sonarsource/dotnet-sonarscanner \
+            burakince/docker-dotnet-sonarscanner \
             end /d:sonar.login="$SONAR_LOGIN" /d:sonar.host.url="$SONAR_HOST_URL"
