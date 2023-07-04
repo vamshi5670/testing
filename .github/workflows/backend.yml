@@ -26,7 +26,7 @@ jobs:
             -v "/var/run/docker.sock:/var/run/docker.sock" \
             sonarsource/sonar-scanner-cli \
             -Dsonar.projectKey=BackEnd \
-            -Dsonar.sources=./sourcecode/BackEnd/AzureFunctionApp,./sourcecode/BackEnd/jwt \
+            -Dsonar.sources=./sourcecode/BackEnd/AzureFunctionApp/AzureFunctionApp.sln,./sourcecode/BackEnd/jwt/JWTToken.sln \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
       - name: Build and analyze with dotnet build
