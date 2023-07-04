@@ -13,39 +13,25 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          java-version: 1.11
-      - name: Cache SonarQube packages
-        uses: actions/cache@v1
-        with:
-          path: ~/sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache SonarQube scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v1
-        with:
-          path: ./.sonar/scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner    
-      - name: Install SonarQube scanner
+          java-version: 17
+          distribution: 'adopt'
+      - name: Analyze with SonarScanner for .NET
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
-          mkdir -p ./.sonar/scanner
-          curl -LsS "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip" -o sonar-scanner.zip
-          unzip sonar-scanner.zip -d ./.sonar/scanner
-      - name: Build and analyze
-        run: |
-          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
+          docker run --rm \
+            -v "${PWD}:/usr/src" \
+            -v "/var/run/docker.sock:/var/run/docker.sock" \
+            sonarsource/sonar-scanner-cli \
             -Dsonar.projectKey=BackEnd \
+            -Dsonar.sources=./sourcecode/BackEnd/AzureFunctionApp,./sourcecode/BackEnd/JWTToken \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
+      - name: Build and analyze with dotnet build
+        run: |
           cd ./sourcecode/BackEnd
           for project in $(find . -name '*.csproj'); do
             dotnet build "$project"
           done
-          cd ../..
-          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
