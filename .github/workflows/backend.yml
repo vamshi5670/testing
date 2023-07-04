@@ -26,7 +26,10 @@ jobs:
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
             -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
             sonarsource/sonar-scanner-cli \
-            begin /k:"BackEnd" /d:sonar.login="$SONAR_LOGIN" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.sources=./sourcecode/BackEnd
+            -Dsonar.projectKey=BackEnd \
+            -Dsonar.sources=./sourcecode/BackEnd/AzureFunctionApp,./sourcecode/BackEnd/jwt \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
       - name: Build and analyze with dotnet build
         run: |
           cd ./sourcecode/BackEnd
@@ -42,4 +45,5 @@ jobs:
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
             -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
             sonarsource/sonar-scanner-cli \
-            end /d:sonar.login="$SONAR_LOGIN" /d:sonar.host.url="$SONAR_HOST_URL"
+            -Dsonar.login="$SONAR_LOGIN" \
+            -Dsonar.host.url="$SONAR_HOST_URL"
