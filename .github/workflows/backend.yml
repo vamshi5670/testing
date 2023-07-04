@@ -33,5 +33,5 @@ jobs:
           dotnet build AzureFunctionApp/AzureFunctionApp.csproj
           dotnet build JWTToken/JWTToken.csproj
           cd ../..
-          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -X \
+          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
