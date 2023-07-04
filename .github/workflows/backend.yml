@@ -27,6 +27,7 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
-          dotnet build ./sourcecode/BackEnd/JWTToken/JWTToken.csproj
-          dotnet build ./sourcecode/BackEnd/AzureFunctionApp/AzureFunctionApp.csproj
+          find project -name "*.csproj" -type f -print0 | while IFS= read -r -d '' csproj; do
+            dotnet build "$csproj"
+          done
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
