@@ -29,7 +29,5 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
       - name: Build and analyze
         run: |
-          echo "Current working directory:"
-          pwd
           cd ./sourcecode/BackEnd
           dotnet build
