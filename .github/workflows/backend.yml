@@ -41,5 +41,6 @@ jobs:
             -v "${PWD}:/usr/src" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
             sonarsource/sonar-scanner-cli \
+            -Dsonar.projectKey=BackEnd \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
