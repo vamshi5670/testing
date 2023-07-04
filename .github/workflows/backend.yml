@@ -29,5 +29,5 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
       - name: Build and analyze
         run: |
-          cd sourcecode/Backend
+          cd ./sourcecode/Backend
           dotnet build
