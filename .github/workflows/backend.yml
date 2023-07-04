@@ -26,7 +26,7 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}" /d:sonar.exclusions="**/sonar-project.properties,sonar-project.properties"
+          dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}" /d:sonar.exclusions="**/sonar-project.properties,testing/sonar-project.properties"
           dotnet build ./sourcecode/BackEnd/JWTToken/JWTToken.csproj
           dotnet build ./sourcecode/BackEnd/AzureFunctionApp/AzureFunctionApp.csproj
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
