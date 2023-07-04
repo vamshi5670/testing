@@ -36,9 +36,6 @@ jobs:
           mkdir -p ./.sonar/scanner
           curl -LsS "https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip" -o sonar-scanner.zip
           unzip sonar-scanner.zip -d ./.sonar/scanner
-	  - name: Print Files in Directory
-        run: |
-          ls -l './.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin' 	  
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
