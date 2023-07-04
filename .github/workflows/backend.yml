@@ -40,12 +40,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
+          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -X \
             -Dsonar.projectKey=BackEnd \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
-          cd ./sourcecode/BackEnd  
+          cd ./sourcecode/BackEnd
           dotnet build
           cd ../..
-          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
+          ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner -X \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
