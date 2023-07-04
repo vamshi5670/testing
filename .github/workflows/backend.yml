@@ -49,7 +49,7 @@ jobs:
             -Dsonar.projectKey=dotnet_sonar \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
-          cd EntityFramework  
+          cd ./sourcecode/BackEnd  
           dotnet build
           cd ../..
           ./.sonar/scanner/sonar-scanner-4.8.0.2856-linux/bin/sonar-scanner \
