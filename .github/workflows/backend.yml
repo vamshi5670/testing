@@ -26,7 +26,7 @@ jobs:
             sonarsource/sonar-scanner-cli \
             -Dsonar.projectKey=BackEnd \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
+            -Dsonar.token=${{ secrets.SONAR_TOKEN_BACKEND }}
       - name: Build and analyze
         run: |
           echo "Current working directory:"
