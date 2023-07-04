@@ -23,8 +23,6 @@ jobs:
           docker run --rm \
             -v "${PWD}:/usr/src" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
-            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
-            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
             sonarsource/sonar-scanner-cli \
             -Dsonar.projectKey=BackEnd \
             -Dsonar.sources=./sourcecode/BackEnd/AzureFunctionApp,./sourcecode/BackEnd/jwt \
@@ -42,8 +40,6 @@ jobs:
           docker run --rm \
             -v "${PWD}:/usr/src" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
-            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
-            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
             sonarsource/sonar-scanner-cli \
-            -Dsonar.login="$SONAR_LOGIN" \
-            -Dsonar.host.url="$SONAR_HOST_URL"
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
