@@ -31,5 +31,5 @@ jobs:
         run: |
           echo "Current working directory:"
           pwd
-          cd ./testing/sourcecode/Backend
+          cd ../sourcecode/Backend
           dotnet build
