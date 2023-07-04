@@ -17,20 +17,29 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
-      - name: Analyze with docker
+      - name: Analyze with SonarScanner for .NET
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         run: |
           docker run --rm \
             -v "${PWD}:/usr/src" \
             -v "/var/run/docker.sock:/var/run/docker.sock" \
-            sonarsource/sonar-scanner-cli \
-            -Dsonar.projectKey=BackEnd \
-            -Dsonar.sources=./sourcecode/BackEnd/AzureFunctionApp,./sourcecode/BackEnd/jwt \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN_BACKEND }}
-      - name: Build and analyze
+            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
+            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
+            sonarsource/dotnet-sonarscanner \
+            begin /k:"BackEnd" /d:sonar.login="$SONAR_LOGIN" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.sources=./sourcecode/BackEnd
+      - name: Build and analyze with dotnet build
         run: |
           cd ./sourcecode/BackEnd
           for project in $(find . -name '*.csproj'); do
             dotnet build "$project"
           done
+      - name: Finalize SonarScanner analysis
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        run: |
+          docker run --rm \
+            -v "${PWD}:/usr/src" \
+            -v "/var/run/docker.sock:/var/run/docker.sock" \
+            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
+            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN_BACKEND }} \
+            sonarsource/dotnet-sonarscanner \
+            end /d:sonar.login="$SONAR_LOGIN" /d:sonar.host.url="$SONAR_HOST_URL"
