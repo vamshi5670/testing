@@ -26,10 +26,10 @@ jobs:
         run: mkdir analysis
       - name: Copy project files to analysis directory
         run: |
-          cp -R ./sourcecode/BackEnd/JWTToken ./analysis
-          cp -R ./sourcecode/BackEnd/AzureFunctionApp ./analysis
-          cp -R ./sourcecode/BackEnd/AzureFunctionWithLoggingService ./analysis
-          cp -R ./sourcecode/BackEnd/LoggingService ./analysis
+          cd sourcecode/BackEnd
+          for project in */; do
+            cp -R "$project" ../analysis
+          done
       - name: Analyze with SonarScanner for MSBuild
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
