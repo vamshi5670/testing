@@ -28,6 +28,8 @@ jobs:
         run: |
           cp -R ./sourcecode/BackEnd/JWTToken ./analysis
           cp -R ./sourcecode/BackEnd/AzureFunctionApp ./analysis
+          cp -R ./sourcecode/BackEnd/AzureFunctionWithLoggingService ./analysis
+          cp -R ./sourcecode/BackEnd/LoggingService ./analysis
       - name: Analyze with SonarScanner for MSBuild
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
@@ -36,4 +38,6 @@ jobs:
           dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
           dotnet build JWTToken/JWTToken.csproj
           dotnet build AzureFunctionApp/AzureFunctionApp.csproj
+          dotnet build AzureFunctionWithLoggingService/AzureFunctionWithLoggingService.csproj
+          dotnet build LoggingService/LoggingService.csproj
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
