@@ -28,7 +28,7 @@ jobs:
         run: |
           cd sourcecode/BackEnd
           for project in */; do
-            cp -R "$project" ../analysis
+            cp -R "$project" ./analysis
           done
       - name: Analyze with SonarScanner for MSBuild
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
