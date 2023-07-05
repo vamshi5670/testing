@@ -26,10 +26,7 @@ jobs:
         run: mkdir analysis
       - name: Copy project files to analysis directory
         run: |
-          cd sourcecode/BackEnd
-          for project in */; do
-            cp -R "$project" ./analysis
-          done
+          find sourcecode/BackEnd -type d -maxdepth 1 -exec cp -R {} analysis \;
       - name: Analyze with SonarScanner for MSBuild
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
