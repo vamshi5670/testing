@@ -36,8 +36,7 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
-          dotnet build JWTToken/JWTToken.csproj
-          dotnet build AzureFunctionApp/AzureFunctionApp.csproj
-          dotnet build AzureFunctionWithLoggingService/AzureFunctionWithLoggingService.csproj
-          dotnet build LoggingService/LoggingService.csproj
+          for project in $(find . -name '*.csproj'); do
+            dotnet build "$project"
+          done
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
