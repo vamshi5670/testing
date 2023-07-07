@@ -6,9 +6,7 @@ on:
       - main
 
   pull_request:
-    types:
-      - opened
-      - synchronize
+    types: [opened, reopened, synchronize]
 
 jobs:
   build:
@@ -69,8 +67,8 @@ jobs:
         run: |
           cp -R ./sourcecode/BackEnd ./analysis
       - name: Analyze with SonarScanner for MSBuild (Pull Request)
+        working-directory: ./analysis
         run: |
-          cd analysis
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
           for project in $(find . -name '*.csproj'); do
