@@ -3,10 +3,9 @@ name: Build
 on:
   push:
     branches:
-      - main
-
-  pull_request:
-    types: [opened, reopened, synchronize]
+      - development
+  pull_request:  
+    types: [opened, synchronize, reopened] 
 
 jobs:
   build:
@@ -29,7 +28,7 @@ jobs:
         run: mkdir analysis
       - name: Copy project files to analysis directory
         run: |
-          cp -R ./sourcecode/BackEnd ./analysis
+          cp -R ./sourcecode/Backend ./analysis
       - name: Analyze with SonarScanner for MSBuild
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
@@ -65,11 +64,14 @@ jobs:
         run: mkdir analysis
       - name: Copy project files to analysis directory
         run: |
-          cp -R ./sourcecode/BackEnd ./analysis    
-      - name: Analyze with SonarScanner for MSBuild (Pull Request)
+          cp -R ./sourcecode/Backend ./analysis
+      - name: Analyze with SonarScanner for MSBuild
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
-          dotnet build
+          for project in $(find . -name '*.csproj'); do
+            dotnet build "$project"
+          done
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
