@@ -61,17 +61,13 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'  # Replace with the desired .NET SDK version
-      - name: Create analysis directory
-        run: mkdir analysis
-      - name: Copy project files to analysis directory
-        run: |
-          cp -R ./sourcecode/BackEnd ./analysis
       - name: Analyze with SonarScanner for MSBuild (Pull Request)
         working-directory: ./analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
-          for project in $(find . -name '*.csproj'); do
-            dotnet build "$project"
-          done
+          dotnet build ./sourcecode/BackEnd/JWTToken/JWTToken.csproj
+          dotnet build ./sourcecode/BackEnd/AzureFunctionApp/AzureFunctionApp.csproj
+          dotnet build ./sourcecode/BackEnd/AzureFunctionWithLoggingService/AzureFunctionWithLoggingService.csproj
+          dotnet build ./sourcecode/BackEnd/LoggingService/LoggingService.csproj
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
