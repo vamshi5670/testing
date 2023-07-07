@@ -28,7 +28,7 @@ jobs:
         run: mkdir analysis
       - name: Copy project files to analysis directory
         run: |
-          cp -R ./sourcecode/Backend ./analysis
+          cp -R ./sourcecode/BackEnd ./analysis
       - name: Analyze with SonarScanner for MSBuild
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
@@ -64,9 +64,8 @@ jobs:
         run: mkdir analysis
       - name: Copy project files to analysis directory
         run: |
-          cp -R ./sourcecode/Backend ./analysis
+          cp -R ./sourcecode/BackEnd ./analysis
       - name: Analyze with SonarScanner for MSBuild
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         working-directory: ./analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
