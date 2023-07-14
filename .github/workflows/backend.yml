@@ -48,8 +48,7 @@ jobs:
     steps:
       - name: Checkout code
         run: git fetch --unshallow
-
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
