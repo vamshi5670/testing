@@ -47,7 +47,6 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout code
-        run: git fetch --unshallow
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
