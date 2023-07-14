@@ -69,7 +69,7 @@ jobs:
         working-directory: ./analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.pullrequest.branch="${{ github.event.pull_request.head.ref }}" /d:sonar.pullrequest.base="${{ github.event.pull_request.base.ref }}" /d:sonar.pullrequest.key="${{github.event.pull_request.number}}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
+          dotnet sonarscanner begin /k:"BackEnd" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.pullrequest.branch="${{ github.event.pull_request.head.ref }}" /d:sonar.pullrequest.base="${{ github.event.pull_request.base.ref }}" /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
           for project in $(find . -name '*.csproj'); do
             dotnet build "$project"
           done
