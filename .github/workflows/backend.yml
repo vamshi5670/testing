@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  pull_request:  
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -37,7 +39,6 @@ jobs:
             dotnet build "$project"
           done
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
-
 
   pull-request-analysis:
     needs: build
