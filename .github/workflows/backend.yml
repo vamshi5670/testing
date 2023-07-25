@@ -38,6 +38,7 @@ jobs:
           done
           dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_BACKEND }}"
 
+
   pull-request-analysis:
     needs: build
     name: Pull Request Analysis
